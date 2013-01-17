@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="build">
+	<target name="init">
+		<condition property="git.command" value="git.cmd" else="git">
+			<os family="windows"/>
+		</condition>
+		<echo message="Git command: ${git.command}"/>
+	</target>
+
+	<target name="check-clone-available">
+		<available file="phototools-clone" type="dir" property="clone.available"/>
+		<echo message="Clone available: ${clone.available}"/>
+	</target>
+
+	<target name="clone" depends="check-clone-available" unless="clone.available">
+		<echo message="Creating new clone"/>
+		<exec executable="${git.command}" dir="${basedir}">
+			<arg line="clone git://github.com/phototools/phototools.git phototools-clone"/>
+		</exec>
+	</target>
+	
+	<target name="pull" depends="check-clone-available" if="clone.available">
+		<echo message="Pulling clone"/>
+		<exec executable="${git.command}" dir="${basedir}/phototools-clone">
+			<arg line="pull"/>
+		</exec>
+	</target>
+
+    <target name="build" depends="init, clone, pull">
+    </target>
+</project>
