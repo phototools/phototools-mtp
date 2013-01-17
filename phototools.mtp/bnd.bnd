@@ -1,0 +1,12 @@
+-buildpath: jpmp/jusbpmp-0.1.4.jar;version=file,\
+	phototools.api;version=latest,\
+	osgi.core
+Include-Resource: dlls/jusbpmp.dll=jpmp/jusbpmp.dll,jars/jusbpmp.jar=jpmp/jusbpmp-0.1.4.jar
+Bundle-NativeCode: dlls/jusbpmp.dll;osname=Win32;processor=x86
+Bundle-ClassPath: .,jars/jusbpmp.jar
+Bundle-Version: ${master-version}
+Bundle-Description: This bundle provides functionality to read photo's from MTP-based USB devices such as Android mobile phones.\n\
+	Note that unlike the other bundles in this project, this one uses GPLv3 because its embedded dependency (http://code.google.com/p/jusbpmp/) is under the GPLv3 license.
+Bundle-License: Bundle-License: http://opensource.org/licenses/GPL-3.0
+Private-Package: org.coderthoughts.phototools.mtp.impl
+Bundle-Activator: org.coderthoughts.phototools.mtp.impl.Activator
