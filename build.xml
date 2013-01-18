@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="build">
-	<target name="init">
-		<condition property="git.command" value="git.cmd" else="git">
-			<os family="windows"/>
-		</condition>
-		<echo message="Git command: ${git.command}"/>
-	</target>
+    <target name="init">
+        <condition property="git.command" value="git.cmd" else="git">
+            <os family="windows"/>
+        </condition>
+        <echo message="Git command: ${git.command}"/>
+    </target>
 
-	<!-- Currently we're copying in the clone of the main project to get access to the API
-	     Need to change that with a better solution. -->
-	<target name="check-clone-available">
-		<available file="phototools-clone" type="dir" property="clone.available"/>
-	</target>
+    <!-- Currently we're copying in the clone of the main project to get access to the API
+             Need to change that with a better solution. -->
+    <target name="check-clone-available">
+        <available file="phototools-clone" type="dir" property="clone.available"/>
+    </target>
 
-	<target name="clone" depends="check-clone-available" unless="clone.available">
-		<exec executable="${git.command}" dir="${basedir}">
-			<arg line="clone git://github.com/phototools/phototools.git phototools-clone"/>
-		</exec>
-	</target>
-	
-	<target name="pull" depends="check-clone-available" if="clone.available">
-		<exec executable="${git.command}" dir="${basedir}/phototools-clone">
-			<arg line="pull"/>
-		</exec>
-	</target>
+    <target name="clone" depends="check-clone-available" unless="clone.available">
+        <exec executable="${git.command}" dir="${basedir}">
+            <arg line="clone git://github.com/phototools/phototools.git phototools-clone"/>
+        </exec>
+    </target>
 
-	<target name="copy">
-		<copy todir="cnf">
-			<fileset dir="phototools-clone/cnf"/>
-		</copy>
-		<copy todir="phototools.api">
-			<fileset dir="phototools-clone/phototools.api"/>
-		</copy>
-	</target>
+    <target name="pull" depends="check-clone-available" if="clone.available">
+        <exec executable="${git.command}" dir="${basedir}/phototools-clone">
+            <arg line="pull"/>
+        </exec>
+    </target>
 
-	<target name="__mainiterateinit" unless="__mainiterateinit_done">
-		<!-- tasks and macros must be defined in a task or we'll get
-		     'Trying to override old definition of task ...' reports -->
+    <target name="copy">
+        <copy todir="cnf">
+            <fileset dir="phototools-clone/cnf"/>
+        </copy>
+        <copy todir="phototools.api">
+            <fileset dir="phototools-clone/phototools.api"/>
+        </copy>
+    </target>
 
-		<macrodef name="iterate">
-			<attribute name="target" />
-			<sequential>
-				<subant target="@{target}">
-					<fileset dir="." includes="*/build.xml" excludes="cnf/* phototools-clone/*" />
-				</subant>
-			</sequential>
-		</macrodef>
+    <target name="__mainiterateinit" unless="__mainiterateinit_done">
+    <!-- tasks and macros must be defined in a task or we'll get
+             'Trying to override old definition of task ...' reports -->
 
-		<!-- mark __mainiterateinit has been run -->
-		<property name="__mainiterateinit_done" value="set" />
-	</target>
+        <macrodef name="iterate">
+            <attribute name="target" />
+            <sequential>
+                <subant target="@{target}">
+                    <fileset dir="." includes="*/build.xml" excludes="cnf/* phototools-clone/*" />
+                </subant>
+            </sequential>
+        </macrodef>
+
+        <!-- mark __mainiterateinit has been run -->
+        <property name="__mainiterateinit_done" value="set" />
+    </target>
 
     <target name="build" depends="init, clone, pull, copy, __mainiterateinit">
-		<iterate target="build" />
-	</target>
+        <iterate target="build" />
+    </target>
 
-	<target name="junit" depends="__mainiterateinit">
-		<iterate target="junit" />
-	</target>
+    <target name="junit" depends="__mainiterateinit">
+        <iterate target="junit" />
+    </target>
 
-	<target name="clean" depends="__mainiterateinit">
-		<iterate target="clean" />
-	</target>
+    <target name="clean" depends="__mainiterateinit">
+        <iterate target="clean" />
+    </target>
 
-	<target name="wipecache">
-		<delete dir="${user.home}/.bnd/cache"/>
-	</target>
-
-
-
-
+    <target name="wipecache">
+        <delete dir="${user.home}/.bnd/cache"/>
+    </target>
 </project>
