@@ -52,6 +52,9 @@
 
     <target name="build" depends="init, clone, pull, copy, __mainiterateinit">
         <iterate target="build" />
+        <subant target="build.plugin">
+            <filelist dir="phototools.mtp.plugin" files="build.xml"/>
+        </subant>
     </target>
 
     <target name="junit" depends="__mainiterateinit">
