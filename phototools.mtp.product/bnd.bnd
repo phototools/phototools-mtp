@@ -1,1 +1,3 @@
  
+-buildpath: phototools.mtp;version=latest
+Bundle-Version: ${master-version}

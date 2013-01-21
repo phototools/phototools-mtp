@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="project" default="build">
-    <target name="build">
+<project name="project" default="build.plugin">
+    <import file="../cnf/build.xml"/>
+
+    <target name="build.plugin">
         <copy file="../phototools.mtp/generated/phototools.mtp.jar" toDir="generated/work/bundle"/>
 
         <zip destfile="generated/PhotoTools-MTP.zip" basedir="generated/work"/>
     </target>
-
-    <target name="clean">
-        <delete includeEmptyDirs="true" failonerror="false">
-            <fileset dir="generated"/>
-        </delete>
-    </target>
-    
-    <target name="junit"/>
 </project>

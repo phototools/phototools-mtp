@@ -4,7 +4,6 @@
         <condition property="git.command" value="git.cmd" else="git">
             <os family="windows"/>
         </condition>
-        <echo message="Git command: ${git.command}"/>
     </target>
 
     <!-- Currently we're copying in the clone of the main project to get access to the API
