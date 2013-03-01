@@ -10,3 +10,5 @@ Bundle-Description: This bundle provides functionality to read photo's from MTP-
 Bundle-License: Bundle-License: http://opensource.org/licenses/GPL-3.0
 Private-Package: org.coderthoughts.phototools.mtp.impl
 Bundle-Activator: org.coderthoughts.phototools.mtp.impl.Activator
+Provide-Capability: x-jpm-plugin;x-jpm-plugin=org.coderthoughts.phototools
+
